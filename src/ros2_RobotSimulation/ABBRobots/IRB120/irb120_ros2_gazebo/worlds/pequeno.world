@@ -1,0 +1,1447 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <scene>
+      <shadows>0</shadows>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+    </scene>
+    <plugin name='gazebo_ros_state' filename='libgazebo_ros_state.so'>
+      <ros>
+        <namespace>/ros2_grasp</namespace>
+        <argument>model_states:=model_states</argument>
+        <argument>link_states:=link_states</argument>
+      </ros>
+      <update_rate>1.0</update_rate>
+    </plugin>
+    <plugin name='gazebo_ros_properties' filename='libgazebo_ros_properties.so'>
+      <ros>
+        <namespace>/ros2_grasp</namespace>
+      </ros>
+    </plugin>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <audio>
+      <device>default</device>
+    </audio>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='irb120'>
+      <joint name='HMI_camera_1_joint' type='fixed'>
+        <pose relative_to='__model__'> -2.5 0.0 0.7 0 0 0 </pose>
+        <parent>world</parent>
+        <child>HMI_camera_1_link</child>
+      </joint>
+      <link name='HMI_camera_1_link'>
+        <pose relative_to='HMI_camera_1_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0</iyy>
+            <iyz>0</iyz>
+            <izz>0</izz>
+          </inertia>
+        </inertial>
+        <collision name='HMI_camera_1_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='HMI_camera_1_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+        </visual>
+        <sensor name='HMI_camera_1' type='camera'>
+          <update_rate>30</update_rate>
+          <camera name='head'>
+            <horizontal_fov>1.22</horizontal_fov>
+            <image>
+              <width>1920</width>
+              <height>1080</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>300</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.007</stddev>
+            </noise>
+          </camera>
+          <plugin name='HMI_camera_1_controller' filename='libgazebo_ros_camera.so'>
+            <robotNamespace/>
+            <alwaysOn>1</alwaysOn>
+            <updateRate>0.0</updateRate>
+            <cameraName>HMI_camera_1</cameraName>
+            <imageTopicName>HMI_image_raw</imageTopicName>
+            <cameraInfoTopicName>HMI_camera_info</cameraInfoTopicName>
+            <frameName>HMI_camera_1_optical_link</frameName>
+            <hackBaseline>0.07</hackBaseline>
+          </plugin>
+        </sensor>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='HMI_camera_2_joint' type='fixed'>
+        <pose relative_to='__model__'>0.7 0 1.5 3.14159 1.57079 3.14159</pose>
+        <parent>world</parent>
+        <child>HMI_camera_2_link</child>
+      </joint>
+      <link name='HMI_camera_2_link'>
+        <pose relative_to='HMI_camera_2_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0</iyy>
+            <iyz>0</iyz>
+            <izz>0</izz>
+          </inertia>
+        </inertial>
+        <collision name='HMI_camera_2_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='HMI_camera_2_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+        </visual>
+        <sensor name='HMI_camera_2' type='camera'>
+          <update_rate>30</update_rate>
+          <camera name='head'>
+            <horizontal_fov>1.22</horizontal_fov>
+            <image>
+              <width>1920</width>
+              <height>1080</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>300</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.007</stddev>
+            </noise>
+          </camera>
+          <plugin name='HMI_camera_2_controller' filename='libgazebo_ros_camera.so'>
+            <robotNamespace/>
+            <alwaysOn>1</alwaysOn>
+            <updateRate>0.0</updateRate>
+            <cameraName>HMI_camera_2</cameraName>
+            <imageTopicName>HMI_image_raw</imageTopicName>
+            <cameraInfoTopicName>HMI_camera_info</cameraInfoTopicName>
+            <frameName>HMI_camera_2_optical_link</frameName>
+            <hackBaseline>0.07</hackBaseline>
+          </plugin>
+        </sensor>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='world_joint' type='fixed'>
+        <pose relative_to='__model__'>0 0 0.25 0 -0 0</pose>
+        <parent>world</parent>
+        <child>irb120_block</child>
+      </joint>
+      <link name='irb120_block'>
+        <pose relative_to='world_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.00246 5e-06 0.019581 0 -0 0</pose>
+          <mass>106.215</mass>
+          <inertia>
+            <ixx>0.689983</ixx>
+            <ixy>-6.10802e-05</ixy>
+            <ixz>0.0836272</ixz>
+            <iyy>0.724726</iyy>
+            <iyz>-0.000164885</iyz>
+            <izz>0.0675791</izz>
+          </inertia>
+        </inertial>
+        <collision name='irb120_block_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 0.2 0.5</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='irb120_block_fixed_joint_lump__base_link_collision_1'>
+          <pose>0 0 0.255 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/collision/base_link.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='irb120_block_fixed_joint_lump__chassis_visual_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 0.2 0.5</size>
+            </box>
+          </geometry>
+        </visual>
+        <visual name='irb120_block_fixed_joint_lump__base_link_visual_1'>
+          <pose>0 0 0.255 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/visual/base_link.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint_1' type='revolute'>
+        <pose relative_to='irb120_block'>0 0 0.255 0 -0 0</pose>
+        <parent>irb120_block</parent>
+        <child>link_1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.87979</lower>
+            <upper>2.87979</upper>
+            <effort>0</effort>
+            <velocity>4.36332</velocity>
+          </limit>
+          <dynamics>
+            <damping>50</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_1'>
+        <pose relative_to='joint_1'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>9.8e-05 -0.00012 0.23841 0 -0 0</pose>
+          <mass>3.067</mass>
+          <inertia>
+            <ixx>0.0142175</ixx>
+            <ixy>-1.28579e-05</ixy>
+            <ixz>-2.31364e-05</ixz>
+            <iyy>0.0144041</iyy>
+            <iyz>1.93404e-05</iyz>
+            <izz>0.0104533</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_1_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/collision/link_1.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_1_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/visual/link_1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint_2' type='revolute'>
+        <pose relative_to='link_1'>0 0 0.29 0 -0 0</pose>
+        <parent>link_1</parent>
+        <child>link_2</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-1.91986</lower>
+            <upper>1.91986</upper>
+            <effort>0</effort>
+            <velocity>4.36332</velocity>
+          </limit>
+          <dynamics>
+            <damping>50</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_2'>
+        <pose relative_to='joint_2'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.00078 -0.00212 0.10124 0 -0 0</pose>
+          <mass>3.909</mass>
+          <inertia>
+            <ixx>0.0603111</ixx>
+            <ixy>9.83431e-06</ixy>
+            <ixz>5.72407e-05</ixz>
+            <iyy>0.041569</iyy>
+            <iyz>-0.00050497</iyz>
+            <izz>0.0259548</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_2_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/collision/link_2.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_2_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/visual/link_2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint_3' type='revolute'>
+        <pose relative_to='link_2'>0 0 0.27 0 -0 0</pose>
+        <parent>link_2</parent>
+        <child>link_3</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-1.91986</lower>
+            <upper>1.22173</upper>
+            <effort>0</effort>
+            <velocity>4.36332</velocity>
+          </limit>
+          <dynamics>
+            <damping>10</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_3'>
+        <pose relative_to='joint_3'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.02281 0.00106 0.05791 0 -0 0</pose>
+          <mass>2.944</mass>
+          <inertia>
+            <ixx>0.00835606</ixx>
+            <ixy>-8.01545e-05</ixy>
+            <ixz>0.00142884</ixz>
+            <iyy>0.016713</iyy>
+            <iyz>-0.000182227</iyz>
+            <izz>0.0126984</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_3_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/collision/link_3.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_3_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/visual/link_3.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint_4' type='revolute'>
+        <pose relative_to='link_3'>0 0 0.07 0 -0 0</pose>
+        <parent>link_3</parent>
+        <child>link_4</child>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-2.79253</lower>
+            <upper>2.79253</upper>
+            <effort>0</effort>
+            <velocity>5.58505</velocity>
+          </limit>
+          <dynamics>
+            <damping>5</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_4'>
+        <pose relative_to='joint_4'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.2247 0.00015 0.00041 0 -0 0</pose>
+          <mass>1.328</mass>
+          <inertia>
+            <ixx>0.00284661</ixx>
+            <ixy>-2.12765e-05</ixy>
+            <ixz>-1.6435e-05</ixz>
+            <iyy>0.00401346</iyy>
+            <iyz>1.31336e-05</iyz>
+            <izz>0.0052535</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_4_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/collision/link_4.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_4_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/visual/link_4.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint_5' type='revolute'>
+        <pose relative_to='link_4'>0.302 0 0 0 -0 0</pose>
+        <parent>link_4</parent>
+        <child>link_5</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-2.0944</lower>
+            <upper>2.0944</upper>
+            <effort>0</effort>
+            <velocity>5.58505</velocity>
+          </limit>
+          <dynamics>
+            <damping>2</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_5'>
+        <pose relative_to='joint_5'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.00109 3.7e-05 6.2e-05 0 -0 0</pose>
+          <mass>0.546</mass>
+          <inertia>
+            <ixx>0.000404891</ixx>
+            <ixy>1.61943e-06</ixy>
+            <ixz>8.46805e-07</ixz>
+            <iyy>0.000892825</iyy>
+            <iyz>-1.51792e-08</iyz>
+            <izz>0.000815468</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_5_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/collision/link_5.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_5_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/visual/link_5.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint_6' type='revolute'>
+        <pose relative_to='link_5'>0.072 0 0 0 -0 0</pose>
+        <parent>link_5</parent>
+        <child>link_6</child>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-6.98132</lower>
+            <upper>6.98132</upper>
+            <effort>0</effort>
+            <velocity>7.33038</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link_6'>
+        <pose relative_to='joint_6'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.006006 -0.000507 0.001239 0 -0 0</pose>
+          <mass>0.143</mass>
+          <inertia>
+            <ixx>0.00300653</ixx>
+            <ixy>1.32865e-06</ixy>
+            <ixz>-4.87384e-06</ixz>
+            <iyy>0.00301005</iyy>
+            <iyz>1.65725e-06</iyz>
+            <izz>0.00300443</izz>
+          </inertia>
+        </inertial>
+        <collision name='link_6_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/collision/link_6.stl</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='link_6_fixed_joint_lump__schunk_coupler_collision_1'>
+          <pose>0.001 0 0 1.5708 0.785398 1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_Adapter.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>0.9</mu>
+                <mu2>0.9</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='link_6_fixed_joint_lump__egp64_gripper_base_link_collision_2'>
+          <pose>0.02147 -0.00985 0.035476 1.5708 0.785398 1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_BaseNoAdapter.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link_6_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/visual/link_6.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='link_6_fixed_joint_lump__schunk_coupler_visual_1'>
+          <pose>0.001 0 0 1.5708 0.785398 1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_Adapter.dae</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Black</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <visual name='link_6_fixed_joint_lump__egp64_gripper_base_link_visual_2'>
+          <pose>0.02147 -0.00985 0.035476 1.5708 0.785398 1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_BaseNoAdapter.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='EE_egp64_joint' type='prismatic'>
+        <pose relative_to='link_6'>0.17147 0.000757 -0.000587 1.5708 0.785398 1.5708</pose>
+        <parent>link_6</parent>
+        <child>EE_egp64</child>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0</upper>
+            <effort>10000</effort>
+            <velocity>0</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='EE_egp64'>
+        <pose relative_to='EE_egp64_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1e-05</mass>
+          <inertia>
+            <ixx>0.001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.001</iyy>
+            <iyz>0</iyz>
+            <izz>0.001</izz>
+          </inertia>
+        </inertial>
+        <visual name='EE_egp64_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.001 0.001 0.001</size>
+            </box>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='egp64_finger_left_joint' type='prismatic'>
+        <pose relative_to='link_6'>0.02147 -0.004893 0.01946 1.5708 0.785398 1.5708</pose>
+        <parent>link_6</parent>
+        <child>egp64_finger_left_link</child>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>-0.001</lower>
+            <upper>0.04</upper>
+            <effort>100</effort>
+            <velocity>0.2</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='egp64_finger_left_link'>
+        <pose relative_to='egp64_finger_left_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.03568 -0.005547 0.00062 0 -0 0</pose>
+          <mass>0.003</mass>
+          <inertia>
+            <ixx>0.00200003</ixx>
+            <ixy>-2.84394e-07</ixy>
+            <ixz>-7.7562e-08</ixz>
+            <iyy>0.00200261</iyy>
+            <iyz>-8.4568e-09</iyz>
+            <izz>0.00200264</izz>
+          </inertia>
+        </inertial>
+        <collision name='egp64_finger_left_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_LeftFingerBase.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='egp64_finger_left_link_fixed_joint_lump__egp64_fingertip_left_link_collision_1'>
+          <pose>0.03869 -0.0005 0.00093 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_LeftFinger.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='egp64_finger_left_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_LeftFingerBase.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='egp64_finger_left_link_fixed_joint_lump__egp64_fingertip_left_link_visual_1'>
+          <pose>0.03869 -0.0005 0.00093 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_LeftFinger.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='egp64_finger_right_joint' type='prismatic'>
+        <pose relative_to='link_6'>0.02147 -0.024926 0.042037 1.5708 0.785398 1.5708</pose>
+        <parent>link_6</parent>
+        <child>egp64_finger_right_link</child>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-0.001</lower>
+            <upper>0.04</upper>
+            <effort>100</effort>
+            <velocity>0.2</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>1</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='egp64_finger_right_link'>
+        <pose relative_to='egp64_finger_right_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.018273 -0.005327 0.00062 0 -0 0</pose>
+          <mass>0.003</mass>
+          <inertia>
+            <ixx>0.00200001</ixx>
+            <ixy>1.23691e-08</ixy>
+            <ixz>1.10608e-08</ixz>
+            <iyy>0.00200006</iyy>
+            <iyz>-2.5792e-09</iyz>
+            <izz>0.00200006</izz>
+          </inertia>
+        </inertial>
+        <collision name='egp64_finger_right_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_RightFingerBase.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='egp64_finger_right_link_fixed_joint_lump__egp64_fingertip_right_link_collision_1'>
+          <pose>-0.01211 -0.00197 0.00093 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_RightFinger.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='egp64_finger_right_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_RightFingerBase.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='egp64_finger_right_link_fixed_joint_lump__egp64_fingertip_right_link_visual_1'>
+          <pose>-0.01211 -0.00197 0.00093 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/meshes/egp64/egp64_RightFinger.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <static>0</static>
+      <plugin name='gazebo_ros2_control' filename='libgazebo_ros2_control.so'>
+        <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+        <parameters>/home/jhon/logistic_robotic_arm/install/irb120_ros2_gazebo/share/irb120_ros2_gazebo/config/irb120egp64_controller.yaml</parameters>
+      </plugin>
+      <pose>0 0 0 0 -0 0</pose>
+    </model>
+    <model name='conveyor_belt'>
+      <model name='conveyorbelt_fixed'>
+        <static>1</static>
+        <link name='belt_visual'>
+          <visual name='visual'>
+            <geometry>
+              <mesh>
+                <scale>1 1 1</scale>
+                <uri>model://conveyor_belt/meshes/conveyor_belt.dae</uri>
+              </mesh>
+            </geometry>
+          </visual>
+          <collision name='collision'>
+            <geometry>
+              <mesh>
+                <scale>1 1 1</scale>
+                <uri>model://conveyor_belt/meshes/conveyor_belt.dae</uri>
+              </mesh>
+            </geometry>
+            <max_contacts>10</max_contacts>
+            <surface>
+              <contact>
+                <ode/>
+              </contact>
+              <bounce/>
+              <friction>
+                <torsional>
+                  <ode/>
+                </torsional>
+                <ode/>
+              </friction>
+            </surface>
+            <origin xyz='0.0 0.0 0' rpy='0.0 0.0 0.0'/>
+          </collision>
+          <self_collide>0</self_collide>
+          <enable_wind>0</enable_wind>
+          <kinematic>0</kinematic>
+        </link>
+      </model>
+      <model name='conveyorbelt_moving'>
+        <allow_auto_disable>0</allow_auto_disable>
+        <static>0</static>
+        <pose>0 0 0.741 0 -0 0</pose>
+        <link name='belt_moving'>
+          <inertial>
+            <mass>100</mass>
+            <inertia>
+              <ixx>0</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>0</iyy>
+              <iyz>0</iyz>
+              <izz>0</izz>
+            </inertia>
+            <pose>0 0 0 0 -0 0</pose>
+          </inertial>
+          <collision name='belt_collision'>
+            <geometry>
+              <box>
+                <size>0.425 1.2 1e-05</size>
+              </box>
+            </geometry>
+            <surface>
+              <friction>
+                <ode>
+                  <mu>100</mu>
+                  <mu2>100</mu2>
+                </ode>
+                <torsional>
+                  <coefficient>1000</coefficient>
+                  <patch_radius>0.1</patch_radius>
+                  <ode/>
+                </torsional>
+              </friction>
+              <contact>
+                <ode/>
+              </contact>
+              <bounce/>
+            </surface>
+            <max_contacts>10</max_contacts>
+          </collision>
+          <self_collide>0</self_collide>
+          <enable_wind>0</enable_wind>
+          <kinematic>0</kinematic>
+        </link>
+      </model>
+      <joint name='belt_joint' type='prismatic'>
+        <parent>conveyorbelt_fixed::belt_visual</parent>
+        <child>conveyorbelt_moving::belt_moving</child>
+        <axis>
+          <xyz expressed_in='__model__'>0 1 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.01</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <plugin name='ros2_conveyorbelt_plugin' filename='libros2_conveyorbelt_plugin.so'>
+        <ros>
+          <namespace/>
+        </ros>
+        <max_velocity>1.0</max_velocity>
+        <publish_rate>1000</publish_rate>
+      </plugin>
+      <pose>0.743448 0.014225 0 0 -0 0</pose>
+    </model>
+    <state world_name='default'>
+      <sim_time>404 985000000</sim_time>
+      <real_time>243 932722217</real_time>
+      <wall_time>1716874458 950608683</wall_time>
+      <iterations>206243</iterations>
+      <model name='conveyor_belt'>
+        <pose>0.743448 0.014225 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <model name='conveyorbelt_fixed'>
+          <pose>0.743448 0.014225 0 0 -0 0</pose>
+          <scale>1 1 1</scale>
+          <link name='belt_visual'>
+            <pose>0.743448 0.014225 0 0 -0 0</pose>
+            <velocity>0 0 0 0 -0 0</velocity>
+            <acceleration>0 0 0 0 -0 0</acceleration>
+            <wrench>0 0 0 0 -0 0</wrench>
+          </link>
+        </model>
+        <model name='conveyorbelt_moving'>
+          <pose>0.743448 0.014225 0.741 0 -0 0</pose>
+          <scale>1 1 1</scale>
+          <link name='belt_moving'>
+            <pose>0.743448 0.014225 0.741 0 -0 0</pose>
+            <velocity>0 0 0 0 -0 0</velocity>
+            <acceleration>0 0 0 0 -0 0</acceleration>
+            <wrench>0 0 0 0 -0 0</wrench>
+          </link>
+        </model>
+      </model>
+      <model name='estanteria_chiquita'>
+        <pose>-0.752597 0.044697 0.725015 1e-06 4e-06 1.59753</pose>
+        <scale>1 1 1</scale>
+        <link name='base_link'>
+          <pose>-0.752597 0.044697 0.725015 1e-06 4e-06 1.59753</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='irb120'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='EE_egp64'>
+          <pose>0.547207 0.000755 1.11706 1.61572 0.784887 1.60255</pose>
+          <velocity>0.001234 -7e-06 -0.014588 9e-06 0.026673 -7e-06</velocity>
+          <acceleration>1.23429 -0.007846 -14.5882 0.007368 0.000512 -0.004206</acceleration>
+          <wrench>1.2e-05 -0 -0.000146 0 -0 0</wrench>
+        </link>
+        <link name='HMI_camera_1_link'>
+          <pose>2 1 1.5 0 0.35 -2.6</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='HMI_camera_2_link'>
+          <pose>0.7 0 1.5 3.14159 1.57079 3.14159</pose>
+          <velocity>0 0 -0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='egp64_finger_left_link'>
+          <pose>0.39792 -0.004892 1.14186 1.61572 0.784887 1.60255</pose>
+          <velocity>0.001895 -5e-06 -0.010608 9e-06 0.026673 -7e-06</velocity>
+          <acceleration>1.11807 -0.005222 -10.5994 0.007307 0.000516 -0.004251</acceleration>
+          <wrench>0.003354 -1.6e-05 -0.031798 0 -0 0</wrench>
+        </link>
+        <link name='egp64_finger_right_link'>
+          <pose>0.398637 -0.024924 1.16443 1.61572 0.784887 1.60255</pose>
+          <velocity>0.002497 -5e-06 -0.010627 9e-06 0.026673 -8e-06</velocity>
+          <acceleration>2.74071 -0.005844 -10.6514 0.007235 0.000517 -0.004313</acceleration>
+          <wrench>0.008222 -1.8e-05 -0.031954 0 -0 0</wrench>
+        </link>
+        <link name='irb120_block'>
+          <pose>-0 0 0.25 0 -0 0</pose>
+          <velocity>0 -0 -0 0 -0 0</velocity>
+          <acceleration>-7e-06 -7.2e-05 2.2e-05 0.000806 -4.9e-05 -0.00067</acceleration>
+          <wrench>-0.000767 -0.007669 0.002293 0 -0 0</wrench>
+        </link>
+        <link name='link_1'>
+          <pose>-2e-06 -0 0.505 -0 2e-06 -5e-06</pose>
+          <velocity>-0 -2e-06 -0 2e-06 0 -7e-06</velocity>
+          <acceleration>-8.6e-05 -0.002137 2.1e-05 0.001863 0.000185 -0.007646</acceleration>
+          <wrench>-0.000264 -0.006553 6.4e-05 0 -0 0</wrench>
+        </link>
+        <link name='link_2'>
+          <pose>-1e-06 -0 0.795 0 -0.000696 -5e-06</pose>
+          <velocity>-0 -2e-06 -0 3e-06 -0.000563 -8e-06</velocity>
+          <acceleration>-0.057105 -0.002695 0.000412 0.003634 -0.562995 -0.007868</acceleration>
+          <wrench>-0.223224 -0.010535 0.001611 0 -0 0</wrench>
+        </link>
+        <link name='link_3'>
+          <pose>-0.000189 -0 1.065 0 0.031723 -5e-06</pose>
+          <velocity>-0.000152 -3e-06 -0 4e-06 0.026631 -8e-06</velocity>
+          <acceleration>1.3701 -0.003788 -0.656135 0.023404 1.49879 -0.015991</acceleration>
+          <wrench>4.03357 -0.011153 -1.93166 0 -0 0</wrench>
+        </link>
+        <link name='link_4'>
+          <pose>0.002031 -0 1.13496 2e-06 0.031722 -5e-06</pose>
+          <velocity>0.001711 -3e-06 -5.9e-05 5e-06 0.026631 -8e-06</velocity>
+          <acceleration>1.53235 -0.005445 -6.04065 0.001767 1.49876 -0.011398</acceleration>
+          <wrench>2.03496 -0.007231 -8.02198 0 -0 0</wrench>
+        </link>
+        <link name='link_5'>
+          <pose>0.303879 -1e-06 1.12539 2e-06 0.031774 -5e-06</pose>
+          <velocity>0.001456 -6e-06 -0.008098 5e-06 0.026673 -8e-06</velocity>
+          <acceleration>1.45874 -0.006042 -8.06888 0.005551 1.54039 -0.006464</acceleration>
+          <wrench>0.796472 -0.003299 -4.40561 0 -0 0</wrench>
+        </link>
+        <link name='link_6'>
+          <pose>0.375842 -2e-06 1.1231 6e-06 0.031775 -5e-06</pose>
+          <velocity>0.001395 -6e-06 -0.010017 9e-06 0.026673 -8e-06</velocity>
+          <acceleration>1.43329 -0.006585 -9.85832 0.008519 1.54044 -0.007456</acceleration>
+          <wrench>0.20496 -0.000942 -1.40974 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>3.08289 -3.05189 0.987028 0 0.100901 2.58782</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+    <model name='estanteria_chiquita'>
+      <link name='base_link'>
+        <inertial>
+          <pose>-0.047859 -0.048115 0 0 -0 0</pose>
+          <mass>86.7765</mass>
+          <inertia>
+            <ixx>29.0056</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>20.6267</iyy>
+            <iyz>-0</iyz>
+            <izz>46.5251</izz>
+          </inertia>
+        </inertial>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+        <pose>0 0 0 0 -0 0</pose>
+        <gravity>1</gravity>
+        <visual name='base_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 0.7</scale>
+              <uri>model://smart_arm/meshes/base_link.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <shader type='pixel'>
+              <normal_map>__default__</normal_map>
+            </shader>
+            <script>
+              <name>ModelPreview_1::base_link::base_link_visual_MATERIAL_</name>
+              <uri>__default__</uri>
+            </script>
+            <ambient>0 0 0 1</ambient>
+            <diffuse>0 0 0 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='base_link_collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <uri>/home/jhon/.gazebo/models/smart_arm/meshes/base_link.STL</uri>
+              <scale>1 1 0.7</scale>
+            </mesh>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <static>0</static>
+      <allow_auto_disable>1</allow_auto_disable>
+      <plugin name='ros2_objectpose_plugin___' filename='libros2_objectpose_plugin.so'>
+        <ros>
+          <namespace>estanteria</namespace>
+        </ros>
+      </plugin>
+      <pose>-1.00003 5.9e-05 1.0192 -4e-06 1e-06 0.000371</pose>
+    </model>
+  </world>
+</sdf>

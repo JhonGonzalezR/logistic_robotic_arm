@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot  name="estantería" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.0478585229254582 -0.0481151791901145 4.32913223340066E-12"
+        rpy="0 0 0" />
+      <mass
+        value="86.7765282459283" />
+      <inertia
+        ixx="29.005613067304"
+        ixy="1.55833440242988E-12"
+        ixz="-6.57995002753802E-09"
+        iyy="20.626683574642"
+        iyz="-8.47955805389888E-12"
+        izz="46.5251201873303" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://smart_arm/meshes/base_link.STL" />
+          <scale>0.5 0.5 0.5</scale>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://smart_arm/meshes/base_link.STL" />
+          <scale>0.5 0.5 0.5</scale>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Input parameters: -->
+  <xacro:arg name="name" default="none"/>
+  <xacro:property name="name" value="$(arg name)"/>
+
+  <!-- LOAD ObjectPose Gazebo (ROS2) PLUGIN: -->
+  <gazebo>
+    <plugin name="ros2_objectpose_plugin___" filename="libros2_objectpose_plugin.so" >
+      <ros>
+        <namespace>${name}</namespace>
+      </ros>
+    </plugin>
+  </gazebo>
+
+
+</robot>

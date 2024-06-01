@@ -1,0 +1,17 @@
+# pack-refs with: peeled fully-peeled sorted 
+e36016d1478fa1360e10e2d9f030e745e4e8d0d0 refs/remotes/origin/add_inertias
+b583db4f2a425bfff9ccd00f994c4a3ee1e2cf3b refs/remotes/origin/fix-floor-friction
+2b24e5e635f42439feffb5de24a7f4e60b1fcff2 refs/remotes/origin/foxy-devel
+0f7918e0d08d6cc4c6fbeedc68a602f95702bfed refs/remotes/origin/kenvink/foxy-devel-tuning-lighting
+5d6bad8729e1cd6d177f565a67e161a95d34f6d5 refs/remotes/origin/kenvink/tuning-lighting
+3c23a698bf0b4e366ddf8b084af507c519bd3483 refs/remotes/origin/ros1
+ee0af733315e78432408c3cd98d378ecee5f767c refs/remotes/origin/ros2
+991b24f172af9252d91ef0e8306abee5c26d58f9 refs/tags/0.0.9
+02819c8aa4da215014ae74398493a402fe1c5978 refs/tags/1.0.0
+4a0c604d8dbae824fab77f58ff7d9c779ae84155 refs/tags/1.0.1
+3c23a698bf0b4e366ddf8b084af507c519bd3483 refs/tags/1.0.1-2
+3c23a698bf0b4e366ddf8b084af507c519bd3483 refs/tags/1.0.2
+b5ef5301c7298f019947daa024930469522a5379 refs/tags/1.0.3
+a1a1f7fb3eecff522edc59bf3711280c8cb8f9c3 refs/tags/1.0.4
+ee0af733315e78432408c3cd98d378ecee5f767c refs/tags/1.0.5
+02819c8aa4da215014ae74398493a402fe1c5978 refs/tags/v1.0.0
